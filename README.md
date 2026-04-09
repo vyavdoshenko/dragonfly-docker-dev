@@ -152,6 +152,29 @@ To open a second shell in a running container:
 attach dragonfly
 ```
 
+### Passing additional Docker parameters
+
+The `run` function accepts extra Docker flags after the container name. For example, to use host networking:
+
+```sh
+run dragonfly dragonfly --network host
+```
+
+You can also create a custom network and run multiple containers — useful for testing replication or cluster setups:
+
+```sh
+# Create a dual-stack bridge network
+docker network create --driver bridge --subnet=192.168.100.0/24 --ipv6 --subnet=deaf:b19:d00d::/64 df-net
+
+# Start a container with a specific IP
+run dragonfly dragonfly --network df-net --ip 192.168.100.2 --ip6 deaf:b19:d00d::2
+
+# Start a second container (e.g., for replication)
+run dragonfly dragonfly-main --network df-net --ip 192.168.100.3 --ip6 deaf:b19:d00d::3
+```
+
+> The second argument is the container name. When omitted, it defaults to `<image_name>-container`.
+
 ## Building Dragonfly inside the container
 
 Once inside the container:
