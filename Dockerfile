@@ -84,14 +84,6 @@ RUN apt -y install \
     zlib1g-dev \
     zsh
 
-#RUN apt -y install \
-#    gcc-14 \
-#    g++-14 \
-
-#RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 \
-#    --slave /usr/bin/g++ g++ /usr/bin/g++-14 \
-#    --slave /usr/bin/gcov gcov /usr/bin/gcov-14
-
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
@@ -177,8 +169,6 @@ RUN python3.10 -m venv /home/builder/.venv && \
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-RUN git clone https://github.com/dragonflydb/df-afl.git /home/builder/df-afl
 
 USER root
 
