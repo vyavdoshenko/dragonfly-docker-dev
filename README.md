@@ -228,6 +228,8 @@ The container includes a `colorize` utility that highlights Dragonfly log output
 ./dragonfly --alsologtostderr 2>&1 | colorize
 ```
 
+![colorize](img/colorize.png)
+
 - Lines starting with `I` (info) are highlighted in green
 - Lines starting with `W` (warning) in yellow
 - Lines starting with `E` (error) in red
@@ -237,6 +239,8 @@ Use `colorize cut` for a compact view that strips timestamps:
 ```sh
 ./dragonfly --alsologtostderr 2>&1 | colorize cut
 ```
+
+![colorize cut](img/colorize_cut.png)
 
 ## Benchmarking
 
