@@ -86,17 +86,18 @@ RUN apt -y install \
 
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 RUN apt-get install -y nodejs
+RUN corepack enable && corepack prepare yarn@stable --activate
 
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get update --fix-missing
-RUN apt-get upgrade -y
-
-RUN apt -y install \
-    python3.10 \
-    python3.10-dev \
-    python3.10-tk \
-    python3.10-venv \
-    python3.10-distutils
+RUN apt-get install -y tk-dev && \
+    ARCH=$(uname -m) && \
+    case "$ARCH" in \
+      x86_64)  PBS_ARCH=x86_64-unknown-linux-gnu ;; \
+      aarch64) PBS_ARCH=aarch64-unknown-linux-gnu ;; \
+      *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
+    esac && \
+    wget "https://github.com/astral-sh/python-build-standalone/releases/download/20241016/cpython-3.10.15+20241016-${PBS_ARCH}-install_only.tar.gz" -O /tmp/python310.tar.gz && \
+    tar -C /usr/local --strip-components=1 -xf /tmp/python310.tar.gz && \
+    rm /tmp/python310.tar.gz
 
 # Add memtier_benchmark
 RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg && \
